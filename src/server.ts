@@ -17,7 +17,7 @@ const fetch = require('node-fetch');
   
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
+  app.get( "/", async (req :express.Request, res :express.Response) => {
     res.send("try GET /filteredimage?image_url={{}}")
   } );
   
@@ -32,7 +32,7 @@ const fetch = require('node-fetch');
   //    image_url: URL of a publicly accessible image
   // RETURNS
   //   the filtered image file
-  app.get( "/filteredimage", async ( req, res ) => {
+  app.get( "/filteredimage", async (req :express.Request, res :express.Response) => {
     const image_url : string = req.query.image_url;
 
     //1. validate the image_url query
@@ -41,7 +41,7 @@ const fetch = require('node-fetch');
     }
 
     //based on: https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
-    var urlPattern = new RegExp('^(https?:\\/\\/)?'+
+    var urlPattern : RegExp = new RegExp('^(https?:\\/\\/)?'+
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
       '((\\d{1,3}\\.){3}\\d{1,3}))'+
       '(\\:\\d+)?(\\/[-a-z\(\)\\d%_.~+]*)*'+
@@ -53,8 +53,8 @@ const fetch = require('node-fetch');
 
     //check if the image actually exists
     const existImage : boolean = await fetch(image_url, { method: 'HEAD' })
-    .then((r: any) => {
-      if (r.ok) {
+    .then((response: any) => {
+      if (response.ok) {
         return true;
       }
       return false;
